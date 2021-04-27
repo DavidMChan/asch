@@ -1,0 +1,76 @@
+doc-warnings: false
+test-warnings: true
+
+strictness: veryhigh
+autodetect: true
+max-line-length: 120
+
+# uses:
+#   - torch
+#   - numpy
+
+pep8:
+  full: true
+  disable:
+    - N812
+    - E501
+    - E266
+
+pylint:
+    run: true
+    disable:
+      - too-many-arguments
+      - too-many-return-statements
+      - too-many-instance-attributes
+      - too-many-nested-blocks
+      - too-many-locals
+      - too-many-branches
+      - too-few-public-methods
+      - invalid-name
+      - broad-except
+      - too-many-ancestors
+      - unnecessary-lambda
+      - line-too-long
+      - unused-argument
+      - no-self-use
+      - arguments-differ
+      - too-many-statements
+      - not-callable
+      - django-not-available
+      - pointless-string-statement
+      - abstract-method
+
+pep257:
+    disable:
+      - D213
+      - D211
+      - D406
+      - D407
+      - E741
+
+frosted:
+  run: false
+  full: true
+
+mccabe:
+  run: false
+
+ignore-paths:
+  - aai/captions/caption-mask-filler
+  - aai/captions/caption-mask-generator
+  - aai/captions/captions/
+  - aai/captions/checkpoints/
+  - aai/datasets/audioset/audioset_videos.txt
+  - aai/datasets/youdescribe/transcripts
+  - aai/datasets/youdescribe/transcripts_wav
+  - aai/datasets/youdescribe/youdescribe_annotations.json
+  - aai/external
+  - aai/experimental/dkhullar/ocr/glove.6B
+  - aai/experimental/dkhullar/ocr/docker
+  - aai/experimental/dkhullar/ocr/sample_train_data
+  - aai/research/brownian/
+  - aai/research/gptcaptions/checkpoints/
+  - aai/research/gptcaptions/gptcaptions/
+  - aai/research/gptcaptions/gptcaptions-yc2/
+  - aai/research/gptcaptions/gptcaptions-yc2-sweeps/
+  - aai/research/scanlearn/data/

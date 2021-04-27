@@ -1,0 +1,8 @@
+[style]
+based_on_style = google
+spaces_before_comment = 2
+split_before_logical_operator = true
+column_limit = 120
+
+continuation_align_style = space
+disable_ending_comma_heuristic = false
