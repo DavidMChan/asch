@@ -2,6 +2,11 @@ from flask import Flask, render_template
 from flask_restful import Api
 import pymongo
 
+from experiments import EXPERIMENT_TYPES
+
+print(EXPERIMENT_TYPES)
+
+
 FLASK_SECRET_KEY = 'Hello World'
 
 # Flask app configuration
