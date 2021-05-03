@@ -1,30 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Link
 } from "react-router-dom";
+import { Card, CardBody, Button, Backdrop } from '@windmill/react-ui'
+
+function Launch(props) {
+    return  <div className="flex items-center justify-center h-screen z-50 w-screen relative" onClick={props.onClick}>
+                <div className="bg-indigo-800 text-white font-bold rounded-lg border shadow-lg p-10">
+                    Centered Content
+                </div>
+            </div>;
+}
 
 
 function GameCard(props) {
-    return (<div className="w-full max-w-full flex p-4">
-                <div className="h-auto w-48 bg-cover rounded-t text-center overflow-hidden"
-                     style={{backgroundImage: "url('https://picsum.photos/200')"}}>
-                </div>
-                <div class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
-                    <div class="mb-8 justify-center">
-                        <div class="text-gray-900 font-bold text-xl mb-2">{props.name}</div>
-                        <button class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full shadow-lg mt-2"> Play </button> <br />
-                        <button class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full shadow-lg mt-4"> Manage / View Results </button>
-                    </div>
-                </div>
-            </div>)
+    return (<Card className="flex h-48 border-2 border-gray-300 w-6/12 m-6">
+                <img className="object-cover w-1/3" src="https://picsum.photos/800" />
+                <CardBody>
+                    <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">{props.name}</p>
+                    <Button className="shadow-md mr-6" onClick={() => props.play_fn(props.name)}>Play</Button>
+                    <Button className="shadow-md">View Results / Manage</Button>
+                </CardBody>
+            </Card>)
 }
 
 
 export default function Index() {
-    return (
+
+    const [playMode, setPlayMode] = useState(false);
+    const [selectedGame, setSelectedGame ] = useState(null);
+
+    function disable_play() {
+        setPlayMode(false);
+    }
+
+    function play_fn(game) {
+        setPlayMode(true);
+        setSelectedGame(game);
+    }
+
+    return <React.Fragment>
         <div className="container px-32 flex pt-12">
-            <GameCard name="Blicket Experiment (v0)"></GameCard>
-            <GameCard name="Mazes (ICML)"></GameCard>
+            <GameCard name="Blicket Experiment (v0)" play_fn={play_fn}></GameCard>
+            <GameCard name="Mazes (ICML)" play_fn={play_fn}></GameCard>
         </div>
-    )
+        {playMode && <div className="fixed top-0 h-screen w-screen">
+             <Backdrop onClick={disable_play}/>
+             <Launch onClick={disable_play}/>
+        </div>}
+    </React.Fragment>
 }
