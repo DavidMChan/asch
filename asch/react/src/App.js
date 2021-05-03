@@ -14,13 +14,15 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 // Core navigational pages
-import Index from './views/index.js';
+import Index from './views/index';
+import PlayView from './views/play';
 
 export default function App() {
   return (<CookiesProvider>
     <Router>
       <Switch>
         <Route exact path="/" component={Index} />
+        <Route path="/play" component={PlayView} />
       </Switch>
     </Router>
 

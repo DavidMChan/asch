@@ -1,5 +1,5 @@
-
 from .base import BaseGame
+
 
 class Maze(BaseGame):
 
@@ -10,6 +10,6 @@ class Maze(BaseGame):
 
 class ICMLMaze(BaseGame):
 
-    @staticmethods
+    @staticmethod
     def name():
         return 'icml_maze'

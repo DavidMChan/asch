@@ -12,8 +12,16 @@ class Config:
     """
     config = configparser.ConfigParser()
 
-    BOOLEAN_STATES = {'1': True, 'yes': True, 'true': True, 'on': True,
-                      '0': False, 'no': False, 'false': False, 'off': False}
+    BOOLEAN_STATES = {
+        '1': True,
+        'yes': True,
+        'true': True,
+        'on': True,
+        '0': False,
+        'no': False,
+        'false': False,
+        'off': False
+    }
 
     @staticmethod
     def init_config(file):
@@ -23,44 +31,34 @@ class Config:
     @staticmethod
     def get_or_else(section, option, default_value):
         if Config.config.has_option(section, option):
-            return Config.config.get(section, option,
-                                     fallback=default_value)
-        else:
-            return os.environ.get('_'.join(['ASCH', section.upper(), option]),
-                                  default_value)
+            return Config.config.get(section, option, fallback=default_value)
+
+        return os.environ.get('_'.join(['ASCH', section.upper(), option]), default_value)
 
     @staticmethod
     def getint_or_else(section, option, default_value):
         if Config.config.has_option(section, option):
-            return Config.config.getint(section, option,
-                                        fallback=default_value)
-        else:
-            return Config._get_conv_env_or_else(section, option,
-                                                int, default_value)
+            return Config.config.getint(section, option, fallback=default_value)
+
+        return Config._get_conv_env_or_else(section, option, int, default_value)
 
     @staticmethod
     def getfloat_or_else(section, option, default_value):
         if Config.config.has_option(section, option):
-            return Config.config.getfloat(section, option,
-                                          fallback=default_value)
-        else:
-            return Config._get_conv_env_or_else(section, option,
-                                                float, default_value)
+            return Config.config.getfloat(section, option, fallback=default_value)
+
+        return Config._get_conv_env_or_else(section, option, float, default_value)
 
     @staticmethod
     def getboolean_or_else(section, option, default_value):
         if Config.config.has_option(section, option):
-            return Config.config.getboolean(section, option,
-                                            fallback=default_value)
-        else:
-            return Config._get_conv_env_or_else(section, option,
-                                                Config._convert_to_boolean,
-                                                default_value)
+            return Config.config.getboolean(section, option, fallback=default_value)
+
+        return Config._get_conv_env_or_else(section, option, Config._convert_to_boolean, default_value)
 
     @staticmethod
     def _get_conv_env_or_else(section, option, conv, default_value):
-        return conv(os.environ.get('_'.join(['ASCH', section.upper(), option.upper()]),
-                                   default_value))
+        return conv(os.environ.get('_'.join(['ASCH', section.upper(), option.upper()]), default_value))
 
     @staticmethod
     def _convert_to_boolean(value):
@@ -72,4 +70,5 @@ class Config:
 
 
 if os.path.exists(os.path.join(os.path.expanduser('~'), '.aschrc')):
-    Config.init_config(os.path.join(os.path.expanduser('~'), '.aschrc'))
+    with open(os.path.join(os.path.expanduser('~'), '.aschrc'), 'r') as config_file:
+        Config.init_config(config_file)

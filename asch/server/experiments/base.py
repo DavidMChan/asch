@@ -1,17 +1,20 @@
-
 from abc import ABC, abstractclassmethod
 import random
 
 from typing import List, Dict, Any
 
-from asch.server.participants import PARTICIPANT_REGISTRY
+from asch.server.participants import Participant
 
 
 class BaseGame(ABC):
 
     @abstractclassmethod
     def name(cls) -> str:
-        return 'BaseGame'
+        raise NotImplementedError()
+
+    @abstractclassmethod
+    def build_path(cls) -> str:
+        raise NotImplementedError()
 
     @abstractclassmethod
     def conditions(cls) -> List[str]:
@@ -27,21 +30,15 @@ class BaseGame(ABC):
         if condition is None:
             condition = random.choice(cls.conditions())
 
-        # Construct an experiment sequence
-        experiment_sequence = cls.new_experiment_sequence(condition)
+        # Construct an sequence of tasks
+        tasks = cls.new_experiment_sequence(condition)
 
-        # Build a participant
-        participant = {
-            '_participant_id': PARTICIPANT_REGISTRY.new(),
-            '_current_experiment': 0,
-            '_is_finished': len(experiment_sequence) <= 0,
-            'condition': condition,
-            'experiments': experiment_sequence,
-            'results': [],
-        }
+        participant = Participant(experiment=cls.name(),
+                                  condition=condition,
+                                  tasks=tasks)
+        # Upload the new data
+        return Participant.new(participant)
 
-        return participant
-
-    @abstractclassmethod
+    @classmethod
     def on_finished(data: Dict[str, Any]) -> Dict[str, Any]:
-        raise NotImplementedError()
+        return data
