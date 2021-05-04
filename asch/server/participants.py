@@ -82,11 +82,11 @@ class Participant():
 
     # Ops for finishing, and managing next tasks
     def next_task(self, ) -> Dict[str, Any]:
-        unfinished_tasks = [t for t in self.tasks.values() if not t.get('_finished', False)]
+        unfinished_tasks = [(k,v) for (k,v) in self.tasks.items() if not v.get('_finished', False)]
         if len(unfinished_tasks) == 0:
             return {'finished': True, 'remaining': 0}
-        next_task = unfinished_tasks[0]
-        next_task.update({'finished': False, 'remaining': len(unfinished_tasks)})
+        next_task_id, next_task = unfinished_tasks[0]
+        next_task.update({'_id': next_task_id, 'finished': False, 'remaining': len(unfinished_tasks)})
         return next_task
 
     def finish_task(self, task_id: str, data: Dict[str, Any] = None) -> bool:

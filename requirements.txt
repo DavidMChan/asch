@@ -3,7 +3,8 @@
 flask>=1.1.2
 flask_restful>=0.3.8
 pymongo>=3.11
-dnspyhon >=2.1.0
+dnspython>=2.1.0
+gunicorn>=20.1.0
 
 # Development requirements
 yapf
