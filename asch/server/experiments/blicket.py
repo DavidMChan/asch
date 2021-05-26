@@ -26,6 +26,21 @@ class Blicket(BaseGame):
         blickets = set(objects[:2])
 
         return [{
-            'rule': condition,
-            'is_blicket': ''.join('1' if i in blickets else '0' for i in range(3)),
+            "name" : "conjunctive_train",
+            "maxObjectsOnDetector": 3,
+            "shuffle" : False,
+            "rule": "conjunctive",
+            "detector_pattern": 0,
+            "blicket_arrangement": [1, 0, 1],
+            "blicket_colors": [0, 1, 2],
+            "blicket_shapes": [0, 1, 2]
+        },{
+            "name" : "conjunctive_test",
+            "maxObjectsOnDetector": 3,
+            "shuffle" : True,
+            "rule": "conjunctive",
+            "detector_pattern": 2,
+            "blicket_arrangement": [1, 0, 1],
+            "blicket_colors": [6, 7, 8],
+            "blicket_shapes": [6, 7, 8]
         }]
