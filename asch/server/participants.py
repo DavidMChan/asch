@@ -33,12 +33,17 @@ class Participant():
         # Initialize results data
         if isinstance(tasks, list):
             self.tasks = OrderedDict()
-            for i, t in enumerate(tasks):
-                if isinstance(t, tuple):
-                    self.tasks[t[0]] = t[1]
-                else:
-                    self.tasks[str(i)] = t # For people who are lazy and just give a list of tasks
-        elif isinstance(tasks, dict):
+            if tasks and isinstance(tasks[0], list):
+                # this means tasks is a list with the form [['0', {t}], ...]
+                for task in tasks:
+                    self.tasks[task[0]] = task[1]
+            else:
+                for i, t in enumerate(tasks):
+                    if isinstance(t, tuple):
+                        self.tasks[t[0]] = t[1]
+                    else:
+                        self.tasks[str(i)] = t # For people who are lazy and just give a list of tasks
+        elif isinstance(tasks, OrderedDict):
             self.tasks = OrderedDict()
             for k,v in tasks.items():
                 self.tasks[k] = v
@@ -52,7 +57,7 @@ class Participant():
         else:
             if 'completion_code' not in mturk_data:
                 raise AssertionError('Completion code must be specified if initializing mturk data.')
-            self.mturk = mturk_data
+            self.mturk_data = mturk_data
 
     def get_id(self,):
         if self._id is None:
@@ -77,7 +82,7 @@ class Participant():
             'tasks': [(k,v) for k,v in self.tasks.items()] # Preserve the ordered dictionary component
         }
         if self._id is not None:
-            output.update({'_id': _id})
+            output.update({'_id': self._id})
         return output
 
     # Ops for finishing, and managing next tasks
