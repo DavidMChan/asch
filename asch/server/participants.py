@@ -84,9 +84,9 @@ class Participant():
     def next_task(self, ) -> Dict[str, Any]:
         unfinished_tasks = [(k,v) for (k,v) in self.tasks.items() if not v.get('_finished', False)]
         if len(unfinished_tasks) == 0:
-            return {'finished': True, 'remaining': 0}
+            return {'_finished': True, '_remaining': 0}
         next_task_id, next_task = unfinished_tasks[0]
-        next_task.update({'_id': next_task_id, 'finished': False, 'remaining': len(unfinished_tasks)})
+        next_task.update({'_id': next_task_id, '_finished': False, '_remaining': len(unfinished_tasks)})
         return next_task
 
     def finish_task(self, task_id: str, data: Dict[str, Any] = None) -> bool:

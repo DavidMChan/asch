@@ -155,3 +155,6 @@ opencv_contrib/
 *.pkl
 *.mp4
 *.DS_Store
+
+# Static files
+asch/server/static/games/
