@@ -119,7 +119,7 @@ class Participant():
 
     @classmethod
     def update(cls, participant: 'Participant') -> 'Participant':
-        cls._db.participants.update_one({'_id': participant._id}, participant.todict())
+        cls._db.participants.replace_one({'_id': participant._id}, participant.todict())
         return True
 
     @classmethod
