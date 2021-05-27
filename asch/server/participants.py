@@ -33,16 +33,11 @@ class Participant():
         # Initialize results data
         if isinstance(tasks, list):
             self.tasks = OrderedDict()
-            if tasks and isinstance(tasks[0], list):
-                # this means tasks is a list with the form [['0', {t}], ...]
-                for task in tasks:
-                    self.tasks[task[0]] = task[1]
-            else:
-                for i, t in enumerate(tasks):
-                    if isinstance(t, tuple):
-                        self.tasks[t[0]] = t[1]
-                    else:
-                        self.tasks[str(i)] = t # For people who are lazy and just give a list of tasks
+            for i, t in enumerate(tasks):
+                if isinstance(t, (list, tuple)):
+                    self.tasks[t[0]] = t[1]
+                else:
+                    self.tasks[str(i)] = t # For people who are lazy and just give a list of tasks
         elif isinstance(tasks, OrderedDict):
             self.tasks = OrderedDict()
             for k,v in tasks.items():
