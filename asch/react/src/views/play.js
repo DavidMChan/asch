@@ -123,7 +123,7 @@ export default class PlayView extends React.Component {
 
                 // Send the participant data to the unity game
                 const host = window.location.protocol + "//" + window.location.host;
-                that.unityContent.on('ReadyToRecieveData', () => {
+                that.unityContent.on('ReadyToReceiveData', () => {
                     that.unityContent.send('ParticipantSettings', 'SetParticipantId', participant.id);
                     that.unityContent.send('ParticipantSettings', 'SetServerUrl', host);
                 });

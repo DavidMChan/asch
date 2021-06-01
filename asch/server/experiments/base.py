@@ -40,5 +40,5 @@ class BaseGame(ABC):
         return Participant.new(participant)
 
     @classmethod
-    def on_finished(data: Dict[str, Any]) -> Dict[str, Any]:
+    def on_finished(cls, data: Dict[str, Any]) -> Dict[str, Any]:
         return data

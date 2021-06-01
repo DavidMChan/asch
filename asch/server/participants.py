@@ -34,11 +34,11 @@ class Participant():
         if isinstance(tasks, list):
             self.tasks = OrderedDict()
             for i, t in enumerate(tasks):
-                if isinstance(t, tuple):
+                if isinstance(t, (list, tuple)):
                     self.tasks[t[0]] = t[1]
                 else:
                     self.tasks[str(i)] = t # For people who are lazy and just give a list of tasks
-        elif isinstance(tasks, dict):
+        elif isinstance(tasks, OrderedDict):
             self.tasks = OrderedDict()
             for k,v in tasks.items():
                 self.tasks[k] = v
@@ -52,7 +52,7 @@ class Participant():
         else:
             if 'completion_code' not in mturk_data:
                 raise AssertionError('Completion code must be specified if initializing mturk data.')
-            self.mturk = mturk_data
+            self.mturk_data = mturk_data
 
     def get_id(self,):
         if self._id is None:
@@ -77,13 +77,13 @@ class Participant():
             'tasks': [(k,v) for k,v in self.tasks.items()] # Preserve the ordered dictionary component
         }
         if self._id is not None:
-            output.update({'_id': _id})
+            output.update({'_id': self._id})
         return output
 
     # Ops for finishing, and managing next tasks
     def next_task(self, ) -> Dict[str, Any]:
         unfinished_tasks = [(k,v) for (k,v) in self.tasks.items() if not v.get('_finished', False)]
-        if len(unfinished_tasks) == 0:
+        if not unfinished_tasks:
             return {'_finished': True, '_remaining': 0}
         next_task_id, next_task = unfinished_tasks[0]
         next_task.update({'_id': next_task_id, '_finished': False, '_remaining': len(unfinished_tasks)})
@@ -114,7 +114,7 @@ class Participant():
 
     @classmethod
     def update(cls, participant: 'Participant') -> 'Participant':
-        cls._db.participants.update_one({'_id': participant._id}, participant.todict())
+        cls._db.participants.replace_one({'_id': participant._id}, participant.todict())
         return True
 
     @classmethod
