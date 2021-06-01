@@ -1,15 +1,13 @@
-
-
-
-import pymongo
-import bson
 import json
 
+import bson
+import pymongo
+from flask import Response, request
 from flask_restful import Resource
-from flask import request, Response
 
-from asch.server.participants import Participant
 from asch.server.auth import protected
+from asch.server.participants import Participant
+
 
 class ParticipantViewAPIResource(Resource):
 
@@ -17,6 +15,7 @@ class ParticipantViewAPIResource(Resource):
     def get(self, user):
         # Return a list of all participants, their conditions, and their completion codes.
         return [f.todict(json_safe=True) for f in filter(lambda x: x.finished, Participant.fetch_all())]
+
 
 class DownloadParticipantDataAPIRecource(Resource):
 
@@ -29,6 +28,4 @@ class DownloadParticipantDataAPIRecource(Resource):
         # Serve a JSON file with the data
         return Response(json.dumps([Participant.todict(f, json_safe=True) for f in finished_participants]),
                         mimetype='application/octet-stream; charset=UTF-8',
-                        headers={
-                            'Content-Disposition': "attachment; filename=participant_data.json"
-                        })
+                        headers={'Content-Disposition': "attachment; filename=participant_data.json"})

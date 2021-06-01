@@ -1,7 +1,6 @@
-from abc import ABC, abstractclassmethod
 import random
-
-from typing import List, Dict, Any
+from abc import ABC, abstractclassmethod
+from typing import Any, Dict, List
 
 from asch.server.participants import Participant
 
@@ -33,9 +32,7 @@ class BaseGame(ABC):
         # Construct an sequence of tasks
         tasks = cls.new_experiment_sequence(condition)
 
-        participant = Participant(experiment=cls.name(),
-                                  condition=condition,
-                                  tasks=tasks)
+        participant = Participant(experiment=cls.name(), condition=condition, tasks=tasks)
         # Upload the new data
         return Participant.new(participant)
 

@@ -1,19 +1,16 @@
+from typing import Any, Dict, Optional, Union
 
-from typing import Union, Optional, Dict, Any
-import pymongo
 import bson
+import pymongo
 
 from asch.config import Config
+
 
 class ResultLog():
 
     _db = pymongo.MongoClient(Config.get_or_else('database', 'CONNECTION_STRING', None)).asch
 
-    def __init__(self,
-                 _id = None,
-                 task = None,
-                 participant = None,
-                 data = None):
+    def __init__(self, _id=None, task=None, participant=None, data=None):
         self._id = _id
         self.task = task
         self.participant = participant

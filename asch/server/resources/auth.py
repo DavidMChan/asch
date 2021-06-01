@@ -1,16 +1,19 @@
-import pymongo
-import bson
 import base64
 
+import bson
+import pymongo
+from flask import Response, request
 from flask_restful import Resource
-from flask import request, Response
 
 from asch.server.auth import User
 
+
 class LoginAPIResource(Resource):
+
     def post(self,):
         try:
-            username, password = base64.b64decode(request.headers['Authorization'].encode('utf8')).decode('utf8').split(':')
+            username, password = base64.b64decode(
+                request.headers['Authorization'].encode('utf8')).decode('utf8').split(':')
         except KeyError:
             return {'error': 'Invalid username / password'}, 403
 

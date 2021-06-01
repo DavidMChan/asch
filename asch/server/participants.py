@@ -1,29 +1,35 @@
-import pymongo
-import bson
+import copy
 import random
 import string
-import copy
-
-from typing import Dict, Any, Optional, Union, List
 from collections import OrderedDict
+from typing import Any, Dict, List, Optional, Union
+
+import bson
+import pymongo
+
+from asch.config import Config
+from asch.server.logs import ResultLog
+
 
 def random_string(length: int) -> str:
     return ''.join(random.sample(string.ascii_uppercase, length))
 
-from asch.config import Config
-from asch.server.logs import ResultLog
+
+
 
 class Participant():
 
     _db = pymongo.MongoClient(Config.get_or_else('database', 'CONNECTION_STRING', None)).asch
 
-    def __init__(self,
-                 _id=None,
-                 name=None,
-                 experiment=None,
-                 condition=None,
-                 mturk_data=None,
-                 tasks=None,):
+    def __init__(
+        self,
+        _id=None,
+        name=None,
+        experiment=None,
+        condition=None,
+        mturk_data=None,
+        tasks=None,
+    ):
 
         # Base information
         self._id = _id
@@ -38,12 +44,11 @@ class Participant():
                 if isinstance(t, (list, tuple)):
                     self.tasks[t[0]] = t[1]
                 else:
-                    self.tasks[str(i)] = t # For people who are lazy and just give a list of tasks
+                    self.tasks[str(i)] = t  # For people who are lazy and just give a list of tasks
         elif isinstance(tasks, OrderedDict):
             self.tasks = OrderedDict()
-            for k,v in tasks.items():
+            for k, v in tasks.items():
                 self.tasks[k] = v
-
 
         # Setup information on mechanical turk
         if mturk_data is None:
@@ -77,14 +82,13 @@ class Participant():
 
         if json_safe:
             tasks = {}
-            for k,v in self.tasks.items():
+            for k, v in self.tasks.items():
                 vv = copy.copy(v)
                 if '_result' in vv:
                     vv['_result'] = str(vv['_result'])
                 tasks[k] = vv
         else:
-            tasks = [(k,v) for k,v in self.tasks.items()] # Preserve the ordered dictionary component
-
+            tasks = [(k, v) for k, v in self.tasks.items()]  # Preserve the ordered dictionary component
 
         output = {
             'name': self.name,
@@ -98,8 +102,8 @@ class Participant():
         return output
 
     # Ops for finishing, and managing next tasks
-    def next_task(self, ) -> Dict[str, Any]:
-        unfinished_tasks = [(k,v) for (k,v) in self.tasks.items() if not v.get('_finished', False)]
+    def next_task(self,) -> Dict[str, Any]:
+        unfinished_tasks = [(k, v) for (k, v) in self.tasks.items() if not v.get('_finished', False)]
         if not unfinished_tasks:
             return {'_finished': True, '_remaining': 0}
         next_task_id, next_task = unfinished_tasks[0]
@@ -108,13 +112,13 @@ class Participant():
 
     def finish_task(self, task_id: str, data: Dict[str, Any] = None) -> bool:
         if task_id in self.tasks:
-            data = self.experiment.on_finished(data) # Hook for post-processing data
+            data = self.experiment.on_finished(data)  # Hook for post-processing data
             # Upload the data to the server
             log_elem = ResultLog.new(log=ResultLog(participant=self.get_id(), task=task_id, data=data))
             self.tasks[task_id]['_result'] = log_elem._id
             self.tasks[task_id]['_finished'] = True
             # Commit the new participant data
-            Participant.update(self) # Kinda weird to do it like this, but there's not much that's better
+            Participant.update(self)  # Kinda weird to do it like this, but there's not much that's better
             return True
         return False
 

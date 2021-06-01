@@ -1,27 +1,22 @@
-
-from asch.config import Config
-import hashlib
 import datetime
-import jwt
-import secrets
-import pymongo
+import hashlib
 import random
-
+import secrets
 from functools import wraps
+from typing import Any, Dict, List
+
+import jwt
+import pymongo
 from flask import request
 
-from typing import Dict, Any, List
+from asch.config import Config
+
 
 class User():
 
     _db = pymongo.MongoClient(Config.get_or_else('database', 'CONNECTION_STRING', None)).asch
 
-    def __init__(self,
-                 _id=None,
-                 username=None,
-                 password_hash=None,
-                 salt=None,
-                 tokens=None):
+    def __init__(self, _id=None, username=None, password_hash=None, salt=None, tokens=None):
 
         self._id = _id
         self.username = username
@@ -29,7 +24,7 @@ class User():
         self.salt = salt
         self.tokens = tokens
 
-    def todict(self, ) -> Dict[str, Any]:
+    def todict(self,) -> Dict[str, Any]:
         output = {
             'username': self.username,
             'password_hash': self.password_hash,
@@ -55,8 +50,10 @@ class User():
             for k, v in self.tokens.items():
                 token_expiry = datetime.datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
                 if token_expiry > datetime.datetime.utcnow():
-                    return jwt.encode({'public_id': self.username, 'token': k},
-                                      Config.get_or_else('flask', 'SECRET_KEY', str(random.random())))
+                    return jwt.encode({
+                        'public_id': self.username,
+                        'token': k
+                    }, Config.get_or_else('flask', 'SECRET_KEY', str(random.random())))
 
         # Generate a token
         if expiry is None:
@@ -91,8 +88,9 @@ class User():
 
 
 def protected(f):
-   @wraps(f)
-   def decorator(*args, **kwargs):
+
+    @wraps(f)
+    def decorator(*args, **kwargs):
         token = None
         if 'x-access-tokens' in request.headers:
             token = request.headers['x-access-tokens']
@@ -100,9 +98,7 @@ def protected(f):
             return {'message': 'a valid token is missing'}, 403
 
         # try:
-        data = jwt.decode(token,
-                          Config.get_or_else('flask', 'SECRET_KEY', str(random.random())),
-                          algorithms=['HS256'])
+        data = jwt.decode(token, Config.get_or_else('flask', 'SECRET_KEY', str(random.random())), algorithms=['HS256'])
         user = User.get(data['public_id'])
         if user.validate_token(data['token']):
             return f(user, *args, **kwargs)
@@ -110,4 +106,5 @@ def protected(f):
         #     return {'message': 'a valid token is missing'}, 403
 
         return {'message': 'a valid token is missing'}, 403
-   return decorator
+
+    return decorator

@@ -1,9 +1,7 @@
-
-import pymongo
 import bson
-
-from flask_restful import Resource
+import pymongo
 from flask import request
+from flask_restful import Resource
 
 from asch.server.experiments import EXPERIMENT_TYPES
 from asch.server.participants import Participant

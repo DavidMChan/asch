@@ -1,6 +1,6 @@
-from .base import BaseGame
-
 import random
+
+from .base import BaseGame
 
 
 class Blicket(BaseGame):
@@ -26,18 +26,18 @@ class Blicket(BaseGame):
         blickets = set(objects[:2])
 
         return [{
-            "name" : "conjunctive_train",
+            "name": "conjunctive_train",
             "maxObjectsOnDetector": 3,
-            "shuffle" : False,
+            "shuffle": False,
             "rule": "conjunctive",
             "detector_pattern": 0,
             "blicket_arrangement": [1, 0, 1],
             "blicket_colors": [0, 1, 2],
             "blicket_shapes": [0, 1, 2]
-        },{
-            "name" : "conjunctive_test",
+        }, {
+            "name": "conjunctive_test",
             "maxObjectsOnDetector": 3,
-            "shuffle" : True,
+            "shuffle": True,
             "rule": "conjunctive",
             "detector_pattern": 2,
             "blicket_arrangement": [1, 0, 1],
