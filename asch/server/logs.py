@@ -19,14 +19,15 @@ class ResultLog():
         self.participant = participant
         self.data = data or {}
 
-    def todict(self, ) -> Dict[str, Any]:
+    def todict(self, json_safe: bool = False) -> Dict[str, Any]:
         output = {
             'task': self.task,
-            'participant': self.participant,
+            'participant': self.participant if not json_safe else str(self.participant),
             'data': self.data,
         }
         if self._id:
-            output.update({'_id': self._id})
+            output.update({'_id': self._id if not json_safe else str(self._id)})
+        print(output)
         return output
 
     @classmethod

@@ -7,7 +7,7 @@ from experiments import EXPERIMENT_TYPES  # noqa: F401
 
 from asch.config import Config
 
-from asch.server.resources import PlayAPIResource, UnityTaskAPIResource
+from asch.server.resources import *
 
 
 # Flask app configuration
@@ -24,6 +24,9 @@ api = Api(app)
 
 api.add_resource(PlayAPIResource, '/api/v0/play')
 api.add_resource(UnityTaskAPIResource, '/api/v0/unity/task')
+api.add_resource(ParticipantViewAPIResource, '/api/v0/participants')
+api.add_resource(DownloadParticipantDataAPIRecource, '/api/v0/data/download')
+api.add_resource(LoginAPIResource, '/api/v0/login')
 
 
 @app.route('/')

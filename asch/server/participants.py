@@ -2,8 +2,9 @@ import pymongo
 import bson
 import random
 import string
+import copy
 
-from typing import Dict, Any, Optional, Union
+from typing import Dict, Any, Optional, Union, List
 from collections import OrderedDict
 
 def random_string(length: int) -> str:
@@ -67,17 +68,33 @@ class Participant():
             return EXPERIMENT_TYPES[self._experiment]
         return None
 
+    @property
+    def finished(self,) -> bool:
+        return all(v.get('_finished', False) for v in self.tasks.values())
+
     # Serialization
-    def todict(self,):
+    def todict(self, json_safe=False):
+
+        if json_safe:
+            tasks = {}
+            for k,v in self.tasks.items():
+                vv = copy.copy(v)
+                if '_result' in vv:
+                    vv['_result'] = str(vv['_result'])
+                tasks[k] = vv
+        else:
+            tasks = [(k,v) for k,v in self.tasks.items()] # Preserve the ordered dictionary component
+
+
         output = {
             'name': self.name,
             'experiment': self._experiment,
             'condition': self.condition,
             'mturk_data': self.mturk_data,
-            'tasks': [(k,v) for k,v in self.tasks.items()] # Preserve the ordered dictionary component
+            'tasks': tasks
         }
         if self._id is not None:
-            output.update({'_id': self._id})
+            output.update({'_id': self._id if not json_safe else str(self._id)})
         return output
 
     # Ops for finishing, and managing next tasks
@@ -100,6 +117,12 @@ class Participant():
             Participant.update(self) # Kinda weird to do it like this, but there's not much that's better
             return True
         return False
+
+    def populate_task_data(self,) -> None:
+        # TODO: This is pretty bad - since it's a method which has side effects. We should keep this pure, but #effort
+        for k, v in self.tasks.items():
+            if '_result' in v and v['_result'] is not None:
+                self.tasks[k]['_data'] = ResultLog.get(v['_result']).todict(json_safe=True)
 
     @classmethod
     def fromdict(cls, input_dict):
@@ -132,3 +155,7 @@ class Participant():
         if participant is None:
             return None
         return Participant.fromdict(participant)
+
+    @classmethod
+    def fetch_all(cls, filter={}) -> List['Participant']:
+        return [Participant.fromdict(p) for p in cls._db.participants.find(filter)]
