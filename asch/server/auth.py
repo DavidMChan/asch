@@ -100,7 +100,7 @@ def protected(f):
         # try:
         data = jwt.decode(token, Config.get_or_else('flask', 'SECRET_KEY', str(random.random())), algorithms=['HS256'])
         user = User.get(data['public_id'])
-        if user.validate_token(data['token']):
+        if user and user.validate_token(data['token']):
             return f(user, *args, **kwargs)
         # except:
         #     return {'message': 'a valid token is missing'}, 403
