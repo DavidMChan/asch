@@ -135,6 +135,9 @@ export default class PlayView extends React.Component {
                     that.setState({ is_finished: true, is_loading: false, is_error: false});
                 });
 
+                // Set the URL so that a refresh won't cause issues.
+                window.history.replaceState({}, '', host + `/play?pid=${participant.id}`);
+
                 // Finish the loading process
                 that.setState({
                     participant: participant,
