@@ -34,7 +34,7 @@ function ErrorScreen(props) {
 
 function CompletionScreen(props) {
     return (<div className="h-screen w-screen grid justify-items-center">
-                <div className="m-auto">Finished. Completion code: {props.mturk_code}</div>
+                <div className="m-auto text-3xl">Finished. Completion code: {props.mturk_code}</div>
 
             </div>);
 }
@@ -106,7 +106,7 @@ export default class PlayView extends React.Component {
                     draggable: true,
                     progress: undefined,
                 });
-                this.setState({
+                that.setState({
                     is_loading: false,
                     is_error: true,
                 })
@@ -131,7 +131,8 @@ export default class PlayView extends React.Component {
                 // Set up the exit hooks
                 // TODO: that needs to be adjusted so it won't show the completion code if the participant isn't actually done.
                 that.unityContent.on('quitted', () => {
-                    that.setState({ is_finished: true});
+                    console.log('Game state: Finished.');
+                    that.setState({ is_finished: true, is_loading: false, is_error: false});
                 });
 
                 // Finish the loading process
@@ -162,7 +163,7 @@ export default class PlayView extends React.Component {
         } else if (this.state.is_error) {
             return <ErrorScreen />;
         } else if (this.state.is_finished) {
-            return <CompletionScreen mturk_code={this.state.participant.mturk.completion_code}/>;
+            return <CompletionScreen mturk_code={this.state.participant.mturk_data.completion_code}/>;
         } else {
             return <GameScreen unityContext={this.unityContent}/>
         }
