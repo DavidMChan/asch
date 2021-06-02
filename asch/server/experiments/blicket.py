@@ -26,6 +26,7 @@ class Blicket(BaseGame):
         blickets = set(objects[:2])
 
         return [{
+            "type": "inference",
             "name": "conjunctive_train",
             "maxObjectsOnDetector": 3,
             "shuffle": False,
@@ -35,6 +36,7 @@ class Blicket(BaseGame):
             "blicket_colors": [0, 1, 2],
             "blicket_shapes": [0, 1, 2]
         }, {
+            "type": "inference",
             "name": "conjunctive_test",
             "maxObjectsOnDetector": 3,
             "shuffle": True,
