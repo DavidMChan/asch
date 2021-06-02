@@ -1,9 +1,7 @@
-
-import pymongo
 import bson
-
-from flask_restful import Resource
+import pymongo
 from flask import request
+from flask_restful import Resource
 
 from asch.server.experiments import EXPERIMENT_TYPES
 from asch.server.participants import Participant
@@ -19,16 +17,15 @@ class PlayAPIResource(Resource):
             if participant is None:
                 return {'error': 'Could not create or find participant.'}, 404
         elif 'experiment' in request.args:
-            if request.args['experiment'] in EXPERIMENT_TYPES:
-                exp = EXPERIMENT_TYPES[request.args['experiment']]
-                if 'condition' in request.args:
-                    if request.args['condition'] in exp.conditions():
-                        participant = exp.new_participant(condition=request.args['condition'])
-                    return {'error': 'Unknown condition, but condition specified'}, 400
-                else:
-                    participant = exp.new_participant()
-            else:
+            if request.args['experiment'] not in EXPERIMENT_TYPES:
                 return {'error': 'Unknown Experiment'}, 404
+            exp = EXPERIMENT_TYPES[request.args['experiment']]
+            if 'condition' in request.args:
+                if request.args['condition'] in exp.conditions():
+                    participant = exp.new_participant(condition=request.args['condition'])
+                return {'error': 'Unknown condition, but condition specified'}, 400
+            else:
+                participant = exp.new_participant()
         else:
             return {'error': 'Could not create or find participant.'}, 404
 
