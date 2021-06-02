@@ -19,12 +19,15 @@ class ParticipantCard extends React.Component {
     }
 
     render() {
-        return <div>
-                <p>Name: {this.state.participant.name}</p>
-                <p>Condition: {this.state.participant.condition}</p>
-                <p>MTURK Code: {this.state.participant.mturk_data.completion_code}</p>
-                <p>Last Seen: {this.state.participant._last_seen}</p>
-                <br />
+        return <div className="w-1/3 px-2">
+                    <div className="bg-white px-4 py-4 flex my-2 rounded-lg shadow">
+                        <div className="flex-1">
+                            <p><b>Name:</b> {this.state.participant.name}</p>
+                            <p><b>Condition:</b> {this.state.participant.condition}</p>
+                            <p><b>MTURK Code:</b> {this.state.participant.mturk_data.completion_code}</p>
+                            <p><b>Last Seen:</b> {this.state.participant._last_seen}</p>
+                        </div>
+                    </div>
                 </div>
     }
 
@@ -90,7 +93,7 @@ export default class ResultsView extends React.Component {
                 });
             } else {
                 resp.json().then((data) => {
-                    that.setState({participants: data});
+                    that.setState({participants: data, experiment: urlParams.get('experiment')});
                 });
             }
         });
@@ -100,12 +103,22 @@ export default class ResultsView extends React.Component {
     render() {
             return (<div className="h-screen w-screen grid justify-items-center">
                         <div className="m-auto">
-                        <button className="m-3 p-3 text-base font-semibold rounded-full block border-2 border-purple-300 hover:bg-purple-300 text-purple-700"
+                            <div className="my-20">
+                                <h1 className="text-3xl text-center">{this.state.experiment === null ? 'Experimental Results' : ('Experimental Results: ' + this.state.experiment)}</h1>
+                            </div>
+                            <button className="p-2 my-4 text-base font-semibold rounded-full block border-2 border-purple-300 hover:bg-purple-300 text-purple-700"
                                 type="button"
-                                onClick={this.download}>Download All Results</button>
-                        {this.state.participants === null ? <React.Fragment /> : this.state.participants.map((p) =>
-                            <ParticipantCard participant={p} key={p._id}/>
-                        )}
+                                onClick={this.download}
+                                style={{margin: '0 auto', display: 'block'}}>Download All Results</button>
+                            <div className="w-4/5 flex items-center mx-auto">
+                                <div className="p-6 border rounded-t-lg bg-gray-100">
+                                    <div className="flex flex-wrap -mx-2">
+                                        {this.state.participants === null ? <React.Fragment /> : this.state.participants.map((p) =>
+                                            <ParticipantCard participant={p} key={p._id}/>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>);
     }

@@ -33,7 +33,6 @@ class Zone(tzinfo):
 
 PT = Zone(-7,False,'PT')
 
-
 class Participant():
 
     _db = pymongo.MongoClient(Config.get_or_else('database', 'CONNECTION_STRING', None)).asch
