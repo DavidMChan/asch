@@ -30,7 +30,7 @@ class LoginValidateAPIResource(Resource):
                 # Validate the jwt
                 data = jwt.decode(request.headers['Authorization'], Config.get_or_else('flask', 'SECRET_KEY', str(random.random())), algorithms=['HS256'])
                 user = User.get(data['public_id'])
-                if user.validate_token(data['token']):
+                if user and user.validate_token(data['token']):
                     return {}, 200
         except jwt.exceptions.DecodeError:
             pass
