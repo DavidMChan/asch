@@ -15,15 +15,17 @@ function Launch(props) {
 
 function GameCard(props) {
 
-    return (<div class="w-full p-3">
-                <div class="flex flex-col rounded overflow-hidden h-auto border shadow-lg">
-                    <img class="block h-auto flex-none bg-cover" src={`https://picsum.photos/seed/${props.name}/800`} />
-                    <div class="bg-white rounded-b p-4 flex flex-col justify-center text-center leading-normal">
-                        <div class="text-black font-bold text-xl mb-2 leading-tight">{props.name}</div>
-                        <button class="m-3 h-10 text-base font-semibold rounded-full block border-2 border-purple-300 hover:bg-purple-300 text-purple-700"
+    return (<div className="w-full p-3">
+                <div className="flex flex-col rounded overflow-hidden h-auto border shadow-lg">
+                    <img className="block h-auto flex-none bg-cover" src={`https://picsum.photos/seed/${props.name}/800`} />
+                    <div className="bg-white rounded-b p-4 flex flex-col justify-center text-center leading-normal">
+                        <div className="text-black font-bold text-xl mb-2 leading-tight">{props.name}</div>
+                        <button className="m-3 h-10 text-base font-semibold rounded-full block border-2 border-purple-300 hover:bg-purple-300 text-purple-700"
                                 type="button"
                                 onClick={() => {window.location.href = `${window.location.protocol}//${window.location.host}/play?experiment=${props.experiment}`}}>Play</button>
-                        <button class="m-3 h-10 text-base font-semibold rounded-full block border-2 border-purple-300 hover:bg-purple-300 text-purple-700">Manage</button>
+                        <button className="m-3 h-10 text-base font-semibold rounded-full block border-2 border-purple-300 hover:bg-purple-300 text-purple-700"
+                                type="button"
+                                onClick={() => {window.location.href = `${window.location.protocol}//${window.location.host}/results?experiment=${props.experiment}`}}>Manage</button>
                     </div>
                 </div>
             </div>);

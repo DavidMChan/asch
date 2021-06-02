@@ -23,6 +23,7 @@ api.add_resource(UnityTaskAPIResource, '/api/v0/unity/task')
 api.add_resource(ParticipantViewAPIResource, '/api/v0/participants')
 api.add_resource(DownloadParticipantDataAPIRecource, '/api/v0/data/download')
 api.add_resource(LoginAPIResource, '/api/v0/login')
+api.add_resource(LoginValidateAPIResource, '/api/v0/validate_session')
 
 
 @app.route('/')

@@ -24,7 +24,6 @@ class ResultLog():
         }
         if self._id:
             output.update({'_id': self._id if not json_safe else str(self._id)})
-        print(output)
         return output
 
     @classmethod

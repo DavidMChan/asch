@@ -13,6 +13,8 @@ class ParticipantViewAPIResource(Resource):
 
     @protected
     def get(self, user):
+        if 'experiment' in request.args:
+            return [f.todict(json_safe=True) for f in filter(lambda x: x.finished, Participant.fetch_all(filter={'experiment': request.args['experiment']}))]
         # Return a list of all participants, their conditions, and their completion codes.
         return [f.todict(json_safe=True) for f in filter(lambda x: x.finished, Participant.fetch_all())]
 
@@ -21,7 +23,10 @@ class DownloadParticipantDataAPIRecource(Resource):
 
     @protected
     def get(self, user):
-        finished_participants = list(filter(lambda x: x.finished, Participant.fetch_all()))
+        if 'experiment' in request.args:
+            finished_participants = list(filter(lambda x: x.finished, Participant.fetch_all(filter={'experiment': request.args['experiment']})))
+        else:
+            finished_participants = list(filter(lambda x: x.finished, Participant.fetch_all()))
         for f in finished_participants:
             f.populate_task_data()
 

@@ -72,7 +72,7 @@ export default class PlayView extends React.Component {
             request = build_request(`/api/v0/play?pid=${params.pid}`);
         } else if ('experiment' in params) {
             if ('condition' in params) {
-                request = build_request(`/api/v0/play?experiment=${params.pid}&condition=${params.condition}`);
+                request = build_request(`/api/v0/play?experiment=${params.experiment}&condition=${params.condition}`);
             } else {
                 request = build_request(`/api/v0/play?experiment=${params.experiment}`);
             }

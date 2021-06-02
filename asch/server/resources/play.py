@@ -23,7 +23,8 @@ class PlayAPIResource(Resource):
             if 'condition' in request.args:
                 if request.args['condition'] in exp.conditions():
                     participant = exp.new_participant(condition=request.args['condition'])
-                return {'error': 'Unknown condition, but condition specified'}, 400
+                else:
+                    return {'error': 'Unknown condition, but condition specified'}, 400
             else:
                 participant = exp.new_participant()
         else:

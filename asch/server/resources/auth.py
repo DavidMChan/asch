@@ -1,10 +1,11 @@
 import base64
+import jwt
+import random
 
-import bson
-import pymongo
-from flask import Response, request
+from flask import request
 from flask_restful import Resource
 
+from asch.config import Config
 from asch.server.auth import User
 
 
@@ -16,19 +17,21 @@ class LoginAPIResource(Resource):
                 request.headers['Authorization'].encode('utf8')).decode('utf8').split(':')
         except KeyError:
             return {'error': 'Invalid username / password'}, 403
-
         active_user = User.get(username)
         if active_user and active_user.validate_password(password):
-            return active_user.get_token()
+            return {'token': active_user.get_token()}, 200
         return {'error': 'Invalid username / password'}, 403
 
-        # try:
+class LoginValidateAPIResource(Resource):
 
-        #     # Get login info from the post data, and then return a token if validation is OK.
-        #     active_user = User.get(username)
-        #     if active_user or active_user.validate_password(password):
-        #         return {'OK'}, 200
-        #         # return user.get_token()
-        # except:
-        #     return {'error', 'Invalid username / password'}, 403
-        # return {'error', 'Invalid username / password'}, 403
+    def get(self,):
+        try:
+            if 'Authorization' in request.headers:
+                # Validate the jwt
+                data = jwt.decode(request.headers['Authorization'], Config.get_or_else('flask', 'SECRET_KEY', str(random.random())), algorithms=['HS256'])
+                user = User.get(data['public_id'])
+                if user.validate_token(data['token']):
+                    return {}, 200
+        except jwt.exceptions.DecodeError:
+            pass
+        return {'error': 'Invalid session token'}
