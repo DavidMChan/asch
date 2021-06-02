@@ -22,6 +22,7 @@ export default class LoginView extends React.Component {
         this.login = this.login.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
         this.onUsernameChange = this.onUsernameChange.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
     }
 
     login(event) {
@@ -56,6 +57,12 @@ export default class LoginView extends React.Component {
 
     onUsernameChange(event) {
         this.setState({ username: event.target.value });
+    }
+
+    handleKeyDown(event) {
+        if (event.key === 'Enter') {
+            this.login(event);
+        }
     }
 
     componentDidMount() {
@@ -103,7 +110,8 @@ export default class LoginView extends React.Component {
                                             id="password"
                                             type="password"
                                             placeholder="******************"
-                                            onChange={this.onPasswordChange} />
+                                            onChange={this.onPasswordChange}
+                                            onKeyDown={this.handleKeyDown}/>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <button

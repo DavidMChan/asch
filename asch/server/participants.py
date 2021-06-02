@@ -1,6 +1,8 @@
 import copy
 import random
 import string
+
+from datetime import datetime,tzinfo,timedelta
 from collections import OrderedDict
 from typing import Any, Dict, List, Optional, Union
 
@@ -14,7 +16,22 @@ from asch.server.logs import ResultLog
 def random_string(length: int) -> str:
     return ''.join(random.sample(string.ascii_uppercase, length))
 
+class Zone(tzinfo):
+    def __init__(self,offset,isdst,name):
+        self.offset = offset
+        self.isdst = isdst
+        self.name = name
 
+    def utcoffset(self, dt):
+        return timedelta(hours=self.offset) + self.dst(dt)
+
+    def dst(self, dt):
+        return timedelta(hours=1) if self.isdst else timedelta(0)
+
+    def tzname(self,dt):
+        return self.name
+
+PT = Zone(-7,False,'PT')
 
 
 class Participant():
@@ -29,6 +46,7 @@ class Participant():
         condition=None,
         mturk_data=None,
         tasks=None,
+        _last_seen=None,
     ):
 
         # Base information
@@ -36,6 +54,7 @@ class Participant():
         self.name = name or '_PLACEHOLDER_NAME'
         self._experiment = experiment or '_PLACEHOLDER_EXPERIMENT'
         self.condition = condition or '_PLACEHOLDER_CONDITION'
+        self._last_seen = _last_seen or 'Never'
 
         # Initialize results data
         if isinstance(tasks, list):
@@ -95,7 +114,8 @@ class Participant():
             'experiment': self._experiment,
             'condition': self.condition,
             'mturk_data': self.mturk_data,
-            'tasks': tasks
+            'tasks': tasks,
+            '_last_seen': self._last_seen,
         }
         if self._id is not None:
             output.update({'_id': self._id if not json_safe else str(self._id)})
@@ -117,6 +137,7 @@ class Participant():
             log_elem = ResultLog.new(log=ResultLog(participant=self.get_id(), task=task_id, data=data))
             self.tasks[task_id]['_result'] = log_elem._id
             self.tasks[task_id]['_finished'] = True
+
             # Commit the new participant data
             Participant.update(self)  # Kinda weird to do it like this, but there's not much that's better
             return True
@@ -135,12 +156,14 @@ class Participant():
     @classmethod
     def new(cls, participant: Optional['Participant'] = None) -> 'Participant':
         new_participant = participant or Participant()
+        participant._last_seen = datetime.now(PT).isoformat()
         inserted_doc = cls._db.participants.insert_one(new_participant.todict())
         new_participant._id = inserted_doc.inserted_id
         return new_participant
 
     @classmethod
     def update(cls, participant: 'Participant') -> 'Participant':
+        participant._last_seen = datetime.now(PT).isoformat()
         cls._db.participants.replace_one({'_id': participant._id}, participant.todict())
         return True
 
