@@ -40,7 +40,8 @@ class PlayAPIResource(Resource):
                 'name': participant.experiment.name(),
             },
             'id': str(participant.get_id()),
-            'mturk_data': participant.mturk_data
+            'mturk_data': participant.mturk_data,
+            '_finished': participant.finished,
         }
 
 

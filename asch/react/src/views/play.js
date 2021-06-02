@@ -162,7 +162,7 @@ export default class PlayView extends React.Component {
             return <LoadingScreen />;
         } else if (this.state.is_error) {
             return <ErrorScreen />;
-        } else if (this.state.is_finished) {
+        } else if (this.state.is_finished || this.state.participant && this.state.participant._finished) {
             return <CompletionScreen mturk_code={this.state.participant.mturk_data.completion_code}/>;
         } else {
             return <GameScreen unityContext={this.unityContent}/>
