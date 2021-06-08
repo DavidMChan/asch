@@ -6,7 +6,7 @@ from .base import BaseGame
 conditions = {
     'B1': {
         "type": "inference",
-        "name": "conjunctive_train",
+        "name": "B1_conjunctive_train",
         "maxObjectsOnDetector": 3,
         "shuffle": False,
         "rule": "conjunctive",
@@ -17,7 +17,7 @@ conditions = {
     },
     'B2': {
         "type": "inference",
-        "name" : "disjunctive_train",
+        "name" : "B2_disjunctive_train",
         "maxObjectsOnDetector": 3,
         "shuffle" : False,
         "rule": "disjunctive",
@@ -28,7 +28,7 @@ conditions = {
     },
     'B3': {
         "type": "inference",
-        "name": "conjunctive_test",
+        "name": "B3_conjunctive_test",
         "maxObjectsOnDetector": 3,
         "shuffle": True,
         "rule": "conjunctive",
@@ -39,7 +39,7 @@ conditions = {
     },
     'B4': {
         "type": "inference",
-        "name" : "disjunctive_test",
+        "name" : "B4_disjunctive_test",
         "maxObjectsOnDetector": 3,
         "shuffle" : True,
         "rule": "disjunctive",
