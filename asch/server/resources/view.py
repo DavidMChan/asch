@@ -19,7 +19,7 @@ class ParticipantViewAPIResource(Resource):
         return [f.todict(json_safe=True) for f in filter(lambda x: x.finished, Participant.fetch_all())]
 
 
-class DownloadParticipantDataAPIRecource(Resource):
+class DownloadParticipantDataAPIResource(Resource):
 
     @protected
     def get(self, user):
@@ -34,3 +34,13 @@ class DownloadParticipantDataAPIRecource(Resource):
         return Response(json.dumps([Participant.todict(f, json_safe=True) for f in finished_participants]),
                         mimetype='application/octet-stream; charset=UTF-8',
                         headers={'Content-Disposition': "attachment; filename=participant_data.json"})
+
+class ParticipantFinishedAPIResource(Resource):
+
+    def get(self,):
+        if 'pid' in request.args:
+
+            participant = Participant.get(request.args['pid'])
+            if participant is None:
+                return {'error': 'Participant not found'}, 404
+            return {'finished': participant.finished}, 200
