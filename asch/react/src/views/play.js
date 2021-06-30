@@ -61,6 +61,8 @@ export default class PlayView extends React.Component {
             is_finished: false,
             is_error: false,
         }
+
+        this.timer = null;
     }
 
     componentDidMount() {
@@ -138,6 +140,9 @@ export default class PlayView extends React.Component {
                 // Set the URL so that a refresh won't cause issues.
                 window.history.replaceState({}, '', host + `/play?pid=${participant.id}`);
 
+                // Set up the "finished" polling timer
+                that.timer = setInterval(() => that.getParticipantFinished(), 3000);
+
                 // Finish the loading process
                 that.setState({
                     participant: participant,
@@ -160,12 +165,38 @@ export default class PlayView extends React.Component {
         });
     }
 
+    componentWillUnmount() {
+        if (this.timer !== null) {
+            clearInterval(this.timer);
+            this.timer = null;
+        }
+    }
+
+    getParticipantFinished() {
+        if (this.state.participant !== null) {
+            const that = this;
+            fetch(`/api/v0/particpants/finished?pid=${this.state.participant.id}`)
+                .then( result => result.json())
+                .then( json => {
+                    console.log(json);
+                    if ('finished' in json && json.finished) {
+                        clearInterval(that.timer);
+                        that.timer = null;
+                        that.setState({
+                            is_finished: true
+                        });
+                    }
+                });
+        }
+    }
+
+
     render() {
         if (this.state.is_loading) {
             return <LoadingScreen />;
         } else if (this.state.is_error) {
             return <ErrorScreen />;
-        } else if (this.state.is_finished || this.state.participant && this.state.participant._finished) {
+        } else if (this.state.is_finished || (this.state.participant && this.state.participant._finished)) {
             return <CompletionScreen mturk_code={this.state.participant.mturk_data.completion_code}/>;
         } else {
             return <GameScreen unityContext={this.unityContent}/>
