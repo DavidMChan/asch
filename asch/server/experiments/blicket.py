@@ -22,7 +22,7 @@ conditions = {
         "shuffle" : False,
         "rule": "disjunctive",
         "detector_pattern": 1,
-        "blicket_arrangement": [0, 0, 1],
+        "blicket_arrangement": [1, 0, 1],
         "blicket_colors": [3, 4, 5],
         "blicket_shapes": [3, 4, 5]
     },
@@ -47,6 +47,17 @@ conditions = {
         "blicket_arrangement": [1, 0, 1],
         "blicket_colors": [6, 7, 8],
         "blicket_shapes": [6, 7, 8]
+    },
+    'B5': {
+        "type": "inference",
+        "name" : "B5_disappearing_demo",
+        "maxObjectsOnDetector": 3,
+        "shuffle" : False,
+        "rule": "B5",
+        "detector_pattern": 0,
+        "blicket_arrangement": [1, 0, 1],
+        "blicket_colors": [0, 1, 2],
+        "blicket_shapes": [0, 1, 2]
     }
 }
 
@@ -63,7 +74,7 @@ class Blicket(BaseGame):
 
     @classmethod
     def conditions(cls):
-        return ['B1', 'B2', 'B3', 'B4']
+        return ['B1', 'B2', 'B3', 'B4', 'B5']
 
     @classmethod
     def new_experiment_sequence(cls, condition: str):
