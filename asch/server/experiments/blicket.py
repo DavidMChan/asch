@@ -17,12 +17,12 @@ conditions = {
     },
     'B2': {
         "type": "inference",
-        "name" : "B2_disjunctive_train",
+        "name" : "B2_disjunctive_trainV2",
         "maxObjectsOnDetector": 3,
         "shuffle" : False,
         "rule": "disjunctive",
         "detector_pattern": 1,
-        "blicket_arrangement": [1, 0, 1],
+        "blicket_arrangement": [1, 0, 0],
         "blicket_colors": [3, 4, 5],
         "blicket_shapes": [3, 4, 5]
     },
@@ -39,12 +39,12 @@ conditions = {
     },
     'B4': {
         "type": "inference",
-        "name" : "B4_disjunctive_test",
+        "name" : "B4_disjunctive_testV2",
         "maxObjectsOnDetector": 3,
         "shuffle" : True,
         "rule": "disjunctive",
         "detector_pattern": 2,
-        "blicket_arrangement": [1, 0, 1],
+        "blicket_arrangement": [1, 0, 0],
         "blicket_colors": [6, 7, 8],
         "blicket_shapes": [6, 7, 8]
     },
