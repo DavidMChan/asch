@@ -59,8 +59,80 @@ conditions = {
         "blicket_colors": [0, 1, 2],
         "blicket_shapes": [0, 1, 2]
     }
+    'B6': {
+        "type": "inference",
+        "name": "B6_conjunctive_train_dots",
+        "maxObjectsOnDetector": 3,
+        "shuffle": False,
+        "rule": "conjunctive",
+        "detector_pattern": 1,
+        "blicket_arrangement": [1, 0, 1],
+        "blicket_colors": [0, 1, 2],
+        "blicket_shapes": [0, 1, 2]
+    },
+    'B7': {
+        "type": "inference",
+        "name" : "B7_disjunctive_trainV2_stripes",
+        "maxObjectsOnDetector": 3,
+        "shuffle" : False,
+        "rule": "disjunctive",
+        "detector_pattern": 1,
+        "blicket_arrangement": [1, 0, 0],
+        "blicket_colors": [3, 4, 5],
+        "blicket_shapes": [3, 4, 5]
+    },
+    'C1': {
+        "type": "inference",
+        "name": "C1_conjunctive_test",
+        "maxObjectsOnDetector": 3,
+        "shuffle": True,
+        "rule": "conjunctive",
+        "detector_pattern": 2,
+        "blicket_arrangement": [1, 0, 1],
+        "blicket_colors": [6, 7, 8],
+        "blicket_shapes": [6, 7, 8],
+        "tutorial_number": 0
+    },
+    'C2': {
+        "type": "inference",
+        "name": "C2_disjunctive_test",
+        "maxObjectsOnDetector": 3,
+        "shuffle": True,
+        "rule": "conjunctive",
+        "detector_pattern": 2,
+        "blicket_arrangement": [0, 0, 1],
+        "blicket_colors": [6, 7, 8],
+        "blicket_shapes": [6, 7, 8],
+        "tutorial_number": 0
+    },
+    'C3': {
+        "type": "inference",
+        "name": "C3_conjunctive_test",
+        "maxObjectsOnDetector": 3,
+        "shuffle": True,
+        "rule": "conjunctive",
+        "detector_pattern": 2,
+        "blicket_arrangement": [1, 0, 1],
+        "blicket_colors": [6, 7, 8],
+        "blicket_shapes": [6, 7, 8],
+        "tutorial_number": 1
+    },
+    'C4': {
+        "type": "inference",
+        "name": "C4_disjunctive_test",
+        "maxObjectsOnDetector": 3,
+        "shuffle": True,
+        "rule": "conjunctive",
+        "detector_pattern": 2,
+        "blicket_arrangement": [0, 0, 1],
+        "blicket_colors": [6, 7, 8],
+        "blicket_shapes": [6, 7, 8],
+        "tutorial_number": 1
+    }
 }
 
+
+# tutorial number 0 conjunctive is strips and disjunctive is dots
 
 class Blicket(BaseGame):
 
