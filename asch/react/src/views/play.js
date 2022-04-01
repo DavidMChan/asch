@@ -42,7 +42,12 @@ function CompletionScreen(props) {
 function GameScreen(props) {
     return (<div className="h-screen w-screen grid justify-items-center">
                 <div className="game m-auto" id="gameWindow">
-                    <Unity unityContext={props.unityContext} className="h-100 w-100"/>
+                    <Unity unityContext={props.unityContext} className="h-100 w-100"
+                        style={{
+                            height: 422,
+                            width: 847,
+                        }}
+                    />
                     <div>Note: This may take some time to load depending on your internet and computer speed. Thank you for your patience.</div>
                 </div>
             </div>);
