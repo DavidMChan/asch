@@ -58,7 +58,7 @@ conditions = {
         "blicket_arrangement": [1, 0, 1],
         "blicket_colors": [0, 1, 2],
         "blicket_shapes": [0, 1, 2]
-    }
+    },
     'B6': {
         "type": "inference",
         "name": "B6_conjunctive_train_dots",
@@ -146,7 +146,7 @@ class Blicket(BaseGame):
 
     @classmethod
     def conditions(cls):
-        return ['B1', 'B2', 'B3', 'B4', 'B5']
+        return ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B6', 'C1', 'C2', 'C3', 'C4']
 
     @classmethod
     def new_experiment_sequence(cls, condition: str):
