@@ -83,7 +83,7 @@ conditions = {
     },
     'C1': {
         "type": "inference",
-        "name": "C1_conjunctive_test",
+        "name": "C1_conjunctive_t0_s0_test",
         "maxObjectsOnDetector": 3,
         "shuffle": True,
         "rule": "conjunctive",
@@ -91,11 +91,12 @@ conditions = {
         "blicket_arrangement": [1, 0, 1],
         "blicket_colors": [6, 7, 8],
         "blicket_shapes": [6, 7, 8],
-        "tutorial_number": 0
+        "tutorial_number": 0,
+        "stripe_on_left": 0
     },
     'C2': {
         "type": "inference",
-        "name": "C2_disjunctive_test",
+        "name": "C2_disjunctive_t0_s0_test",
         "maxObjectsOnDetector": 3,
         "shuffle": True,
         "rule": "disjunctive",
@@ -103,11 +104,12 @@ conditions = {
         "blicket_arrangement": [0, 0, 1],
         "blicket_colors": [6, 7, 8],
         "blicket_shapes": [6, 7, 8],
-        "tutorial_number": 0
+        "tutorial_number": 0,
+        "stripe_on_left": 0
     },
     'C3': {
         "type": "inference",
-        "name": "C3_conjunctive_test",
+        "name": "C3_conjunctive_t1_s0_test",
         "maxObjectsOnDetector": 3,
         "shuffle": True,
         "rule": "conjunctive",
@@ -115,11 +117,12 @@ conditions = {
         "blicket_arrangement": [1, 0, 1],
         "blicket_colors": [6, 7, 8],
         "blicket_shapes": [6, 7, 8],
-        "tutorial_number": 1
+        "tutorial_number": 1,
+        "stripe_on_left": 0
     },
     'C4': {
         "type": "inference",
-        "name": "C4_disjunctive_test",
+        "name": "C4_disjunctive_t1_s0_test",
         "maxObjectsOnDetector": 3,
         "shuffle": True,
         "rule": "disjunctive",
@@ -127,7 +130,60 @@ conditions = {
         "blicket_arrangement": [0, 0, 1],
         "blicket_colors": [6, 7, 8],
         "blicket_shapes": [6, 7, 8],
-        "tutorial_number": 1
+        "tutorial_number": 1,
+        "stripe_on_left": 0
+    }
+    'C5': {
+        "type": "inference",
+        "name": "C5_conjunctive_t0_s1_test",
+        "maxObjectsOnDetector": 3,
+        "shuffle": True,
+        "rule": "conjunctive",
+        "detector_pattern": 2,
+        "blicket_arrangement": [1, 0, 1],
+        "blicket_colors": [6, 7, 8],
+        "blicket_shapes": [6, 7, 8],
+        "tutorial_number": 0,
+        "stripe_on_left": 1
+    },
+    'C6': {
+        "type": "inference",
+        "name": "C6_disjunctive_t0_s1_test",
+        "maxObjectsOnDetector": 3,
+        "shuffle": True,
+        "rule": "disjunctive",
+        "detector_pattern": 2,
+        "blicket_arrangement": [0, 0, 1],
+        "blicket_colors": [6, 7, 8],
+        "blicket_shapes": [6, 7, 8],
+        "tutorial_number": 0,
+        "stripe_on_left": 1
+    },
+    'C7': {
+        "type": "inference",
+        "name": "C7_conjunctive_t1_s1_test",
+        "maxObjectsOnDetector": 3,
+        "shuffle": True,
+        "rule": "conjunctive",
+        "detector_pattern": 2,
+        "blicket_arrangement": [1, 0, 1],
+        "blicket_colors": [6, 7, 8],
+        "blicket_shapes": [6, 7, 8],
+        "tutorial_number": 1,
+        "stripe_on_left": 1
+    },
+    'C8': {
+        "type": "inference",
+        "name": "C8_disjunctive_t1_s1_test",
+        "maxObjectsOnDetector": 3,
+        "shuffle": True,
+        "rule": "disjunctive",
+        "detector_pattern": 2,
+        "blicket_arrangement": [0, 0, 1],
+        "blicket_colors": [6, 7, 8],
+        "blicket_shapes": [6, 7, 8],
+        "tutorial_number": 1,
+        "stripe_on_left": 0
     }
 }
 
@@ -146,7 +202,7 @@ class Blicket(BaseGame):
 
     @classmethod
     def conditions(cls):
-        return ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B6', 'C1', 'C2', 'C3', 'C4']
+        return ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B6', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8']
 
     @classmethod
     def new_experiment_sequence(cls, condition: str):
