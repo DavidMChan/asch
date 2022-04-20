@@ -183,7 +183,7 @@ conditions = {
         "blicket_colors": [6, 7, 8],
         "blicket_shapes": [6, 7, 8],
         "tutorial_number": 1,
-        "stripe_on_left": 0
+        "stripe_on_left": 1
     }
 }
 
