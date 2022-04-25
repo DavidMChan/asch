@@ -132,7 +132,7 @@ conditions = {
         "blicket_shapes": [6, 7, 8],
         "tutorial_number": 1,
         "stripe_on_left": 0
-    }
+    },
     'C5': {
         "type": "inference",
         "name": "C5_conjunctive_t0_s1_test",
