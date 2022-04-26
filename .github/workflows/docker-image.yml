@@ -37,7 +37,7 @@ jobs:
         uses: steebchen/kubectl@v2.0.0
         with: # defaults to latest kubectl binary version
           config: ${{ secrets.KUBE_CONFIG_DATA }}
-          command: set image --record deployment/asch-isx-ai asch-isx-ai=${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
+          command: set image --record deployment/asch-isx-ai asch-isx-ai=${{ steps.meta.outputs.tags }}
       - name: Verify deployment
         uses: steebchen/kubectl@v2.0.0
         with:
