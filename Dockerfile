@@ -25,7 +25,7 @@ WORKDIR /app
 COPY . /app
 
 # Link the games to the right location
-MKDIR /app/asch/react/public/static
+RUN mkdir /app/asch/react/public/static
 RUN ln -s /app/games/ /app/asch/react/public/static/games
 
 # Build the nodejs app
