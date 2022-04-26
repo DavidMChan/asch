@@ -35,8 +35,13 @@ function ErrorScreen(props) {
 
 function CompletionScreen(props) {
     return (
-        <div className="h-screen w-screen grid justify-items-center">
+        <div className="my-5 w-screen grid justify-items-center">
             <div className="m-auto text-3xl">Finished. Completion code: {props.mturk_code}</div>
+            <div className="m-auto text-3xl">
+                <a href="/" style={{ textDecoration: 'none' }}>
+                    Home
+                </a>
+            </div>
         </div>
     );
 }

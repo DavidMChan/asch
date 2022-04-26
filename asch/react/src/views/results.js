@@ -194,6 +194,10 @@ export default class ResultsView extends React.Component {
                 <div className="m-auto w-100">
                     <div className="my-20">
                         <h1 className="text-3xl text-center">
+                            <a href="/" style={{ textDecoration: 'none' }}>
+                                Home
+                            </a>{' '}
+                            <span className="px-3">|</span>
                             {this.state.experiment === null
                                 ? 'Experimental Results'
                                 : 'Experimental Results: ' + this.state.experiment}
