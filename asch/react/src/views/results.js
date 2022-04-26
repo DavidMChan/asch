@@ -24,9 +24,6 @@ class ParticipantCard extends React.Component {
                 <div className="bg-white px-4 pt-3 flex my-2 rounded-lg shadow">
                     <div className="flex-1">
                         <p>
-                            <b>Name:</b> {this.state.participant.name}
-                        </p>
-                        <p>
                             <b>Condition:</b> {this.state.participant.condition}
                         </p>
                         <p>
