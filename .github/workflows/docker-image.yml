@@ -33,11 +33,16 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      - name: Deploy to cluster
+      - name: Update Image
         uses: steebchen/kubectl@v2.0.0
         with: # defaults to latest kubectl binary version
           config: ${{ secrets.KUBE_CONFIG_DATA }}
           command: set image --record deployment/asch-isx-ai asch-isx-ai=${{ steps.meta.outputs.tags }}
+      - name: Trigger Deployment
+        uses: steebchen/kubectl@v2.0.0
+        with: # defaults to latest kubectl binary version
+          config: ${{ secrets.KUBE_CONFIG_DATA }}
+          command: rollout restart deployment/asch-isx-ai
       - name: Verify deployment
         uses: steebchen/kubectl@v2.0.0
         with:
