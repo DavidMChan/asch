@@ -6,7 +6,7 @@ from flask_restful import Api
 
 from asch.config import Config
 from asch.server.resources import *
-from experiments import EXPERIMENT_TYPES  # noqa: F401
+from .experiments import EXPERIMENT_TYPES  # noqa: F401
 
 # Flask app configuration
 app = Flask(__name__, static_url_path='/')
