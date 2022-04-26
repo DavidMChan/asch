@@ -7,6 +7,11 @@ import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+};
+
 class ParticipantCard extends React.Component {
     constructor(props) {
         super(props);
@@ -30,7 +35,7 @@ class ParticipantCard extends React.Component {
                             <b>MTURK Code:</b> {this.state.participant.mturk_data.completion_code}
                         </p>
                         <p>
-                            <b>Last Seen:</b> {this.state.participant._last_seen}
+                            <b>Last Seen:</b> {formatData(this.state.participant._last_seen)}
                         </p>
                         <p style={{ textAlign: 'right' }}>
                             <a href="#" onClick={() => this.state.onDownload(this.state.participant)}>
