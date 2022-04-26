@@ -18,7 +18,7 @@ RUN cd /app/ && pip install -r requirements.txt
 ENV NODE_ENV production
 COPY ./asch/react/package.json /tmp/package.json
 RUN cd /tmp/ && npm install
-RUN mkdir -p /app/asch/react/node_modules && cp -r /tmp/node_modules/* /app/asch/react/
+RUN mkdir -p /app/asch/react/ && mv /tmp/node_modules /app/asch/react/
 
 # Copy the main app
 WORKDIR /app
