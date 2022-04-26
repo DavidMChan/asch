@@ -18,6 +18,13 @@ class ParticipantViewAPIResource(Resource):
         # Return a list of all participants, their conditions, and their completion codes.
         return [f.todict(json_safe=True) for f in filter(lambda x: x.finished, Participant.fetch_all())]
 
+    @protected
+    def delete(self, user):
+        if 'id' in request.args:
+            Participant.remove(request.args['id'])
+            return Response(status=200)
+        return Response(status=400)
+
 
 class DownloadParticipantDataAPIResource(Resource):
 
@@ -27,6 +34,9 @@ class DownloadParticipantDataAPIResource(Resource):
             finished_participants = list(filter(lambda x: x.finished, Participant.fetch_all(filter={'experiment': request.args['experiment']})))
         else:
             finished_participants = list(filter(lambda x: x.finished, Participant.fetch_all()))
+        if 'id' in request.args:
+            finished_participants = list(filter(lambda x: str(x._id) == str(request.args['id']), finished_participants))
+
         for f in finished_participants:
             f.populate_task_data()
 

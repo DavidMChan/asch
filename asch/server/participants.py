@@ -169,7 +169,7 @@ class Participant():
     @classmethod
     def remove(cls, participant_id: bson.ObjectId) -> None:
         # Remove a participant
-        cls._db.participants.remove({'_id': participant_id})
+        cls._db.participants.delete_one({'_id': bson.ObjectId(participant_id)})
 
     @classmethod
     def get(cls, participant_id: Union[str, bson.ObjectId]) -> 'Participant':

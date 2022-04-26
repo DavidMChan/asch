@@ -9,7 +9,7 @@ from asch.server.resources import *
 from experiments import EXPERIMENT_TYPES  # noqa: F401
 
 # Flask app configuration
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/')
 app.config['SECRET_KEY'] = Config.get_or_else('flask', 'SECRET_KEY', str(random.random()))
 
 # Setup database connection
@@ -29,15 +29,16 @@ api.add_resource(LoginValidateAPIResource, '/api/v0/validate_session')
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return app.send_static_file('index.html')
 
 
 # Basically, if we don't hit an API call, we'll redirect to the react app
 @app.errorhandler(404)
 def not_found(e):
-    return render_template('index.html')
+    return app.send_static_file('index.html')
 
 
 # Actually run the application
 if __name__ == '__main__':
+
     app.run(port=8080, debug=True)
