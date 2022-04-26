@@ -35,7 +35,7 @@ class ParticipantCard extends React.Component {
                             <b>MTURK Code:</b> {this.state.participant.mturk_data.completion_code}
                         </p>
                         <p>
-                            <b>Last Seen:</b> {formatData(this.state.participant._last_seen)}
+                            <b>Last Seen:</b> {formatDate(this.state.participant._last_seen)}
                         </p>
                         <p style={{ textAlign: 'right' }}>
                             <a href="#" onClick={() => this.state.onDownload(this.state.participant)}>
