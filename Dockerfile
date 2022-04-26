@@ -3,8 +3,8 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-FROM node:16.14.2-alpine AS node_base
-FROM python:3.8-alpine
+FROM --platform=linux/amd64 node:16.14.2-alpine AS node_base
+FROM --platform=linux/amd64 python:3.8-alpine
 COPY --from=node_base / /
 
 # Copy files
@@ -24,6 +24,8 @@ RUN mkdir -p /app/asch/react/node_modules && cp -r /tmp/node_modules/* /app/asch
 WORKDIR /app
 COPY . /app
 
+# Link the games to the right location
+RUN ln -s /app/games/ /app/asch/react/public/static/games
 
 # Build the nodejs app
 RUN cd /app/asch/react && npm run build
