@@ -2,43 +2,43 @@
 
 This is an experimental toolkit for running psychology experiments in unity over the web.
 
-# Installation Instructions
+# Running this application
 
+The following steps show how to run the application on any device.
 
-##  Install the games
+## 1: Creating a Database
 
-If you have a unity build, place it in the server folder as follows:
-```
-asch
-  server
-    static
-      games
-        <game build path>
-          Build
-            unity.data
-            unity.framework.js
-            unity.loader.js
-            unity.wasm
-          TemplateData
-            ...
-          index.html
-```
+This application needs a MongoDB database to function. The easiest way to get a database is to create one with MongoDB's
+free [atlas service](https://www.mongodb.com/atlas/database). Once you create a database (and configure access) you will
+get a connection string of the form "mongodb+srv://<username>:<password>@<something>.<something>.mongodb.net/?retryWrites=true".
 
-## Build the React App
+## 2: Build the docker file
 
-1. Install the package requirements by changing into the `asch/react/` folder and running `npm install`
-2. Build the react app with `npm run build`
+Make sure you have [docker](https://docs.docker.com/get-docker/) installed on your machine. You can build the docker file
+with `docker build . -t asch:latest`. This may take some time (as there are a lot of dependencies to install), but should
+be a relatively automated process.
 
-## Run the server
+## 3: Run the docker container
 
-1. Run `pip install -e .` in the home directory to install the server package.
-2. Create an `~/.aschrc` file with the following configuration keys:
+To run the application locally, you can use the following bash command:
 
-```
-[database]
-connection_string = <YOUR MONGODB CONNECTION STRING>
-[flask]
-secret_key = <A STRING TO USE FOR FLASK
+```bash
+docker run -p 8080:8080 -e ASCH_DATABASE_CONNECTION_STRING="<your connection string>" -e ASCH_FLASK_SECRET_KEY="<a secret key>" asch:latest
 ```
 
-3. Run `python asch/server/server.py` to run the server
+The server will now be running at `http://localhost:8080`.
+
+# Creating a new game
+
+To create a new game, you need several things:
+
+-   A unity game, which is built, and placed in the "games" directory
+-   An experiment file, placed in `asch/server/experiments` which describes the exeperiment.
+
+## Building an integrated unity game
+
+[Coming Soon]
+
+## Building an experiment file
+
+[Coming Soon]
