@@ -202,7 +202,7 @@ class Blicket(BaseGame):
 
     @classmethod
     def conditions(cls):
-        return ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B6', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8']
+        return ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8']
 
     @classmethod
     def new_experiment_sequence(cls, condition: str):
