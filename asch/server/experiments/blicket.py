@@ -76,7 +76,7 @@ conditions = {
         "maxObjectsOnDetector": 3,
         "shuffle" : False,
         "rule": "disjunctive",
-        "detector_pattern": 1,
+        "detector_pattern": 0,
         "blicket_arrangement": [1, 0, 0],
         "blicket_colors": [3, 4, 5],
         "blicket_shapes": [3, 4, 5]
